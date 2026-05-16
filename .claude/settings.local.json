@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(winget install *)",
+      "Bash(ffmpeg *)",
+      "Bash(ffprobe *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)"
+    ]
+  }
+}
