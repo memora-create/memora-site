@@ -14,7 +14,6 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         html {
-            scroll-behavior: smooth;
             font-size: 16px;
         }
 
@@ -758,7 +757,7 @@
 <section id="home" class="hero">
 
     <div class="hero-video-wrap">
-        <video class="hero-video" autoplay muted loop playsinline preload="auto">
+        <video class="hero-video" muted playsinline preload="auto">
             <source src="public/hero.mp4.mp4" type="video/mp4">
         </video>
     </div>
@@ -957,6 +956,8 @@
 </footer>
 
 
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script>
     /* ── Navbar scroll state ── */
     const nav = document.getElementById('nav');
@@ -987,6 +988,32 @@
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     });
+
+    /* ── Scroll-synced hero video ── */
+    gsap.registerPlugin(ScrollTrigger);
+
+    const heroVideo = document.querySelector('.hero-video');
+    heroVideo.pause();
+
+    function initVideoScrub() {
+        gsap.to(heroVideo, {
+            currentTime: heroVideo.duration,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.hero',
+                start: 'top top',
+                end: '+=250%',
+                pin: true,
+                scrub: 0.5,
+                anticipatePin: 1,
+            }
+        });
+    }
+
+    heroVideo.addEventListener('loadedmetadata', initVideoScrub, { once: true });
+    if (heroVideo.readyState >= 1) {
+        initVideoScrub();
+    }
 </script>
 
 </body>
